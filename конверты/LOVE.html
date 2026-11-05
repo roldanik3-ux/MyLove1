@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Для моей любимой 🐾💖</title>
+    <style>
+        /* --- Базовые настройки и шрифты --- */
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:wght@400;500&display=swap');
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Убираем синюю рамку при клике на мобильных */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* 100dvh решает проблему с адресной строкой в мобильных браузерах */
+            height: 100dvh; 
+            background: linear-gradient(135deg, #ffe6e6 0%, #f3e5f5 50%, #e8eaf6 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            perspective: 1500px;
+            touch-action: manipulation; /* Убирает задержку в 300мс при тапах */
+        }
+
+        /* --- Романтичный фон --- */
+        #bgCanvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ==========================================
+           КОНВЕРТ-КОТИК
+           ========================================== */
+        .envelope-wrapper {
+            position: relative;
+            z-index: 10;
+            transition: transform 0.5s ease;
+            animation: floatEnvelope 4s ease-in-out infinite;
+            cursor: pointer;
+            transform-origin: center center; 
+        }
+
+        @keyframes floatEnvelope {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .envelope {
+            position: relative;
+            width: 340px;
+            height: 240px;
+            background: #ffd1dc;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
+            transform-style: preserve-3d;
+        }
+
+        /* --- Ушки --- */
+        .cat-ear {
+            position: absolute;
+            top: -25px;
+            width: 50px;
+            height: 50px;
+            background: #ffd1dc;
+            z-index: 1;
+        }
+        .cat-ear.left { left: 20px; border-radius: 50% 10% 0 0; transform: rotate(-15deg); }
+        .cat-ear.right { right: 20px; border-radius: 10% 50% 0 0; transform: rotate(15deg); }
+        .cat-ear::after {
+            content: ''; position: absolute; top: 5px; left: 10px; width: 30px; height: 35px;
+            background: #ffb6c1; border-radius: 50% 10% 0 0;
+        }
+        .cat-ear.right::after { left: 10px; border-radius: 10% 50% 0 0; }
+
+        .envelope-back {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffb6c1; border-radius: 8px; z-index: 1;
+        }
+
+        .flap {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 170px solid transparent; border-right: 170px solid transparent;
+            border-top: 130px solid #ffc0cb; border-radius: 8px 8px 0 0;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-top-color 0.8s;
+            z-index: 4;
+        }
+
+        .pocket-left {
+            position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+            border-left: 170px solid #ffd1dc; border-top: 120px solid transparent;
+            border-bottom: 120px solid transparent; border-radius: 0 0 0 8px; z-index: 3;
+        }
+        .pocket-right {
+            position: absolute; bottom: 0; right: 0; width: 0; height: 0;
+            border-right: 170px solid #ffd1dc; border-top: 120px solid transparent;
+            border-bottom: 120px solid transparent; border-radius: 0 0 8px 0; z-index: 3;
+        }
+        .pocket-bottom {
+            position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+            border-left: 170px solid transparent; border-right: 170px solid transparent;
+            border-bottom: 130px solid #ffe4e1; border-radius: 0 0 8px 8px; z-index: 3;
+        }
+
+        /* --- Мордочка --- */
+        .cat-face {
+            position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 60px; z-index: 4;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            pointer-events: none;
+        }
+        .cat-eyes { display: flex; gap: 25px; margin-bottom: 5px; }
+        .cat-eye {
+            width: 8px; height: 8px; background: #4a4a4a; border-radius: 50%;
+            animation: blink 4s infinite;
+        }
+        @keyframes blink {
+            0%, 96%, 100% { transform: scaleY(1); }
+            98% { transform: scaleY(0.1); }
+        }
+        .cat-nose {
+            width: 10px; height: 8px; background: #ff69b4;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+        }
+        .cat-nose::before, .cat-nose::after {
+            content: ''; position: absolute; top: 8px; width: 6px; height: 6px;
+            border-bottom: 1.5px solid #4a4a4a; border-radius: 50%;
+        }
+        .cat-nose::before { left: -4px; transform: rotate(-15deg); }
+        .cat-nose::after { right: -4px; transform: rotate(15deg); }
+        .cat-whiskers { position: absolute; width: 100%; height: 100%; top: 50%; }
+        .cat-whiskers::before, .cat-whiskers::after {
+            content: ''; position: absolute; width: 30px; height: 1px; background: #4a4a4a;
+        }
+        .cat-whiskers::before { left: -35px; top: 10px; box-shadow: 0 8px 0 #4a4a4a, 0 16px 0 #4a4a4a; transform: rotate(10deg); }
+        .cat-whiskers::after { right: -35px; top: 10px; box-shadow: 0 8px 0 #4a4a4a, 0 16px 0 #4a4a4a; transform: rotate(-10deg); }
+
+        /* --- Печать --- */
+        .seal {
+            position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 60px; background: linear-gradient(135deg, #ff69b4, #db7093);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 28px; box-shadow: 0 4px 15px rgba(219, 112, 147, 0.5), inset 0 0 10px rgba(255,255,255,0.4);
+            z-index: 5; transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        /* ==========================================
+           ПИСЬМО С ФОТО
+           ========================================== */
+        .letter {
+            position: absolute; top: 15px; left: 15px; width: 310px; height: 320px;
+            background: #fffaf0; border-radius: 4px; padding: 20px;
+            z-index: 2; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s 0.4s, box-shadow 0.4s;
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+            text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #ffe4e1;
+            background-image: radial-gradient(#ffd1dc 1px, transparent 1px); background-size: 25px 25px;
+        }
+
+        .photo-container {
+            background: #fff; padding: 8px 8px 12px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #f8bbd0; transform: rotate(-3deg); margin-bottom: 15px;
+            transition: transform 0.3s ease; background: rgba(255, 255, 255, 0.9); border-radius: 4px;
+        }
+
+        .photo-container img {
+            width: 140px; height: 140px; object-fit: cover; display: block; border-radius: 2px;
+        }
+
+        .letter h2 {
+            font-family: 'Caveat', cursive; color: #db7093; margin: 0 0 5px 0; font-size: 28px;
+            opacity: 0; transition: opacity 0.5s ease 0.5s;
+            background: rgba(255, 250, 240, 0.8); padding: 0 10px; border-radius: 10px;
+        }
+
+        .letter p {
+            font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 15px;
+            color: #5d4037; line-height: 1.5; margin: 0; opacity: 0;
+            transition: opacity 0.5s ease 0.7s; background: rgba(255, 250, 240, 0.9);
+            padding: 10px; border-radius: 10px;
+        }
+
+        /* Подсказка */
+        .hint {
+            position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+            color: #db7093; font-size: 15px; letter-spacing: 1px; white-space: nowrap;
+            transition: opacity 0.3s ease; font-weight: 500;
+        }
+
+        /* ==========================================
+           СОСТОЯНИЯ ОТКРЫТИЯ
+           ========================================== */
+        .envelope-wrapper.step-1 .seal { opacity: 0; transform: translateX(-50%) scale(1.5); }
+        .envelope-wrapper.step-2 .flap {
+            transform: rotateX(180deg); border-top-color: #ffd1dc; z-index: 1;
+        }
+        .envelope-wrapper.step-3 .letter {
+            transform: translateY(-240px); z-index: 6;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 20px rgba(255, 105, 180, 0.3);
+        }
+        .envelope-wrapper.step-3 .letter h2,
+        .envelope-wrapper.step-3 .letter p { opacity: 1; }
+
+        /* ==========================================
+           ЭФФЕКТ НАВЕДЕНИЯ ТОЛЬКО ДЛЯ ПК (Устройства с мышкой)
+           ========================================== */
+        @media (hover: hover) and (pointer: fine) {
+            .photo-container:hover { transform: rotate(0deg) scale(1.05); }
+        }
+
+        /* ==========================================
+           ОПТИМИЗАЦИЯ ДЛЯ ТЕЛЕФОНОВ (Адаптив)
+           ========================================== */
+        
+        /* Для экранов меньше 400px (iPhone SE и подобные) */
+        @media (max-width: 400px) {
+            .envelope-wrapper {
+                transform: scale(0.85); /* Уменьшаем весь конверт */
+            }
+            .hint { font-size: 13px; bottom: -50px; }
+        }
+
+        /* Для низких экранов (когда телефон повернут горизонтально) */
+        @media (max-height: 600px) {
+            .envelope-wrapper {
+                transform: scale(0.7); 
+            }
+            .envelope-wrapper.step-3 .letter {
+                transform: translateY(-200px); 
+            }
+            .hint { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="envelope">
+            <div class="cat-ear left"></div>
+            <div class="cat-ear right"></div>
+            <div class="envelope-back"></div>
+            
+            <div class="letter">
+                <div class="photo-container">
+                    <!-- ТУТ ИЗМЕНЕНО НАЗВАНИЕ ФОТО НА 13.jpg -->
+                    <img src="13.jpg" alt="Наше фото">
+                </div>
+                <h2>Моей любимой...</h2>
+                <p>Тебе так идут эти патчи ✨<br>Мур-мур! Очень тебя люблю! ❤️</p>
+            </div>
+            
+            <div class="flap"></div>
+            <div class="pocket-left"></div>
+            <div class="pocket-right"></div>
+            <div class="pocket-bottom"></div>
+            
+            <div class="cat-face">
+                <div class="cat-eyes">
+                    <div class="cat-eye"></div>
+                    <div class="cat-eye"></div>
+                </div>
+                <div class="cat-nose"></div>
+                <div class="cat-whiskers"></div>
+            </div>
+
+            <div class="seal">🐾</div>
+        </div>
+        
+        <div class="hint" id="hint">Нажми, чтобы сломать печать 💌</div>
+    </div>
+
+    <script>
+        /* ==========================================
+           1. ЛОГИКА ПОШАГОВОГО ОТКРЫТИЯ
+           ========================================== */
+        const wrapper = document.getElementById('envelopeWrapper');
+        const hint = document.getElementById('hint');
+        let currentStep = 0;
+
+        wrapper.addEventListener('click', (e) => {
+            if (currentStep === 3) return;
+
+            currentStep++;
+
+            if (currentStep === 1) {
+                wrapper.classList.add('step-1');
+                hint.innerText = "Теперь открой клапан... ✉️";
+                const x = e.clientX || window.innerWidth / 2;
+                const y = e.clientY || window.innerHeight / 2;
+                createSparks(x, y);
+            } 
+            else if (currentStep === 2) {
+                wrapper.classList.add('step-2');
+                hint.innerText = "Доставай письмо! 📜";
+            } 
+            else if (currentStep === 3) {
+                wrapper.classList.add('step-3');
+                hint.style.opacity = '0';
+                createSparks(window.innerWidth / 2, window.innerHeight / 2 - 100);
+            }
+        });
+
+        /* ==========================================
+           2. ЭФФЕКТ ВЗРЫВА СЕРДЕЧЕК
+           ========================================== */
+        function createSparks(x, y) {
+            const emojis = ['💖', '✨', '🐾', '🐱', '💕', '❤️'];
+            for (let i = 0; i < 20; i++) {
+                const spark = document.createElement('div');
+                spark.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                spark.style.position = 'fixed';
+                spark.style.left = `${x}px`;
+                spark.style.top = `${y}px`;
+                spark.style.fontSize = `${Math.random() * 20 + 10}px`;
+                spark.style.pointerEvents = 'none';
+                spark.style.zIndex = '100';
+                spark.style.transition = 'all 1s cubic-bezier(0.25, 1, 0.5, 1)';
+                
+                document.body.appendChild(spark);
+
+                requestAnimationFrame(() => {
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 120 + 40;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance - 40;
+                    spark.style.transform = `translate(${tx}px, ${ty}px) scale(0) rotate(${Math.random() * 360}deg)`;
+                    spark.style.opacity = '0';
+                });
+
+                setTimeout(() => spark.remove(), 1000);
+            }
+        }
+
+        /* ==========================================
+           3. ФОН (Canvas) С УЧЕТОМ ПЛОТНОСТИ ПИКСЕЛЕЙ (Retina)
+           ========================================== */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resizeCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            
+            ctx.scale(dpr, dpr);
+            
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = window.innerWidth < 600 ? 25 : 40; 
+        const emojis = ['💖', '🐾', '✨', '🌸', '💕'];
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 12 + 8,
+                speedY: Math.random() * 0.8 + 0.3,
+                speedX: Math.random() * 0.4 - 0.2,
+                emoji: emojis[Math.floor(Math.random() * emojis.length)],
+                opacity: Math.random() * 0.5 + 0.3,
+                rotate: Math.random() * 360
+            });
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                ctx.globalAlpha = p.opacity;
+                ctx.font = `${p.size}px Arial`;
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotate * Math.PI / 180);
+                ctx.fillText(p.emoji, -p.size/2, p.size/2);
+                ctx.restore();
+
+                p.y += p.speedY;
+                p.x += Math.sin(p.y / 40) * 0.5;
+                p.rotate += 0.2;
+
+                if (p.y > height + 20) {
+                    p.y = -20;
+                    p.x = Math.random() * width;
+                }
+            });
+
+            requestAnimationFrame(drawParticles);
+        }
+
+        drawParticles();
+    </script>
+</body>
+</html>
